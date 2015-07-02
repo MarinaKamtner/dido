@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends ListActivity {
 
@@ -56,6 +57,9 @@ public class MainActivity extends ListActivity {
 
     public Context context;
 
+    Boolean noData = false;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +83,9 @@ public class MainActivity extends ListActivity {
             }
         });
 
+        TextView tv = (TextView) findViewById(R.id.main_header);
+
+
         // Calling async task to get json
         new GetFinanzaemter().execute();
     }
@@ -97,12 +104,6 @@ public class MainActivity extends ListActivity {
         super.onPause();
     }
 
-    @Override
-    protected void onDestroy() {
-       // datasource.close();
-        super.onDestroy();
-    }
-
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_see_database:
@@ -112,13 +113,10 @@ public class MainActivity extends ListActivity {
         }
     }
 
-
     /**
      * Async task class to get json by making HTTP call
      */
     private class GetFinanzaemter extends AsyncTask<Void, Void, Void> {
-
-        Boolean noData = false;
 
         @Override
         protected void onPreExecute() {
@@ -194,7 +192,14 @@ public class MainActivity extends ListActivity {
             }
 
             if (noData) {
-                // TODO showDialog();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!isFinishing()){
+                            showDialog();
+                        }
+                    }
+                });
             } else {
 
                 /**
@@ -210,12 +215,14 @@ public class MainActivity extends ListActivity {
     }
 
     private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(R.string.dialog_message)
-                .setTitle(R.string.dialog_title);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage(R.string.dialog_message);
+        builder.setTitle(R.string.dialog_title);
+
         builder.setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button - just do nothing, ev close app?
+
             }
         });
         builder.setNegativeButton(R.string.dialog_btn_retry, new DialogInterface.OnClickListener() {
@@ -224,7 +231,6 @@ public class MainActivity extends ListActivity {
                 new GetFinanzaemter().execute();
             }
         });
-
         AlertDialog dialog = builder.create();
         dialog.show();
     }
