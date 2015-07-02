@@ -23,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class MainActivity extends ListActivity {
 
@@ -83,9 +82,6 @@ public class MainActivity extends ListActivity {
             }
         });
 
-        TextView tv = (TextView) findViewById(R.id.main_header);
-
-
         // Calling async task to get json
         new GetFinanzaemter().execute();
     }
@@ -100,7 +96,9 @@ public class MainActivity extends ListActivity {
 
     @Override
     protected void onPause() {
-        datasource.close();
+        if (datasource != null && datasource.isOpen()) {
+            datasource.close();
+        }
         super.onPause();
     }
 

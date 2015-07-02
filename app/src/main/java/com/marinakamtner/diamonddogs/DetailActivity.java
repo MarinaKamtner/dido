@@ -2,6 +2,8 @@ package com.marinakamtner.diamonddogs;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -35,9 +37,14 @@ public class DetailActivity extends Activity {
         name.setText(finanzamt.getName());
 
         img_fa = (ImageView) findViewById(R.id.detail_iv_map);
-        new DownloadImageTask(img_fa, getApplicationContext())
-                .execute(finanzamt.getPhotourl());
-        img_fa.setScaleType(ImageView.ScaleType.FIT_XY);
+        if (isOnline()) {
+            new DownloadImageTask(img_fa, getApplicationContext())
+                    .execute(finanzamt.getPhotourl());
+            img_fa.setScaleType(ImageView.ScaleType.FIT_XY);
+            img_fa.setVisibility(View.VISIBLE);
+        } else {
+            img_fa.setVisibility(View.GONE);
+        }
 
         address = (TextView) findViewById(R.id.detail_tv_address);
         address.setText(finanzamt.getPostcode() + " "+finanzamt.getLocation() + ", "+finanzamt.getStreet());
@@ -82,5 +89,10 @@ public class DetailActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }

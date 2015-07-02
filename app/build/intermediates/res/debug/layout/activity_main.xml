@@ -21,11 +21,9 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/main_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/header"
-            android:onClick="onClick"
             android:textColor="@color/title"
             android:textSize="@dimen/abc_text_size_title_material"
             android:textStyle="bold"
