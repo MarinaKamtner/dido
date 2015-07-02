@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">DiamondDogs</string>
+
+    <string name="header">Tax offices Austria</string>
+
+    <string name="see_database">show DB</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="details_title">Details</string>
+    <string name="details_name">Tax office</string>
+    <string name="details_address">Address</string>
+    <string name="details_address_hint">Address missing</string>
+    <string name="details_openinghours">Openinghours</string>
+    <string name="details_openinghours_hint">Openinghours missing</string>
+    <string name="details_phone">Phone</string>
+    <string name="details_phone_hint">Phonenumber missing</string>
+    <string name="details_showmap">Show on map</string>
+
+    <string name="title_activity_maps">Map</string>
+
+    <string name="dialog_title">No internet connection.</string>
+    <string name="dialog_message">Could not load content. No internet connection available.</string>
+    <string name="dialog_btn_ok">ok</string>
+    <string name="dialog_btn_retry">retry</string>
+
+
+</resources>
